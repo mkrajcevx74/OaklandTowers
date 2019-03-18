@@ -1,18 +1,18 @@
 package com.group9.OaklandTowers.model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
-@Data
-@Entity
-@NoArgsConstructor
-public class PostalInfo
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Table(name = "POSTAL_INFO")
+@Data @Entity @NoArgsConstructor
+public class PostalInfo extends AbstractModelEO<Integer>
 {
-	private @Id @GeneratedValue int post_id;
 	private String post_name;
 	private String post_country;
 	private String post_state;
@@ -28,5 +28,12 @@ public class PostalInfo
 		this.post_city = post_city;
 		this.post_code = post_code;
 		this.post_streetAddr = post_streetAddr;
+	}
+
+	@Column(name = "post_id")
+	@Id @GeneratedValue @Override
+	public Integer getId()
+	{
+		return super.onGetId();
 	}
 }

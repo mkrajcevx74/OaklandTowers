@@ -1,10 +1,5 @@
 package com.group9.OaklandTowers.controller;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,75 +11,60 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.group9.OaklandTowers.controller.resourceAssembler.UserResourceAssembler;
-import com.group9.OaklandTowers.exceptions.UserNotFoundException;
 import com.group9.OaklandTowers.model.User;
 import com.group9.OaklandTowers.repository.UserRepository;
 
 @RestController
-public class UserController
+public class UserController extends ModelController<User, UserRepository, UserResourceAssembler>
 {
-	private final UserRepository repository;
-	private final UserResourceAssembler assembler;
-
 	UserController(UserRepository repository, UserResourceAssembler assembler)
 	{
-		this.repository = repository;
-		this.assembler = assembler;
+		super(repository, assembler);
 	}
 
 	@GetMapping("/users")
 	public Resources<Resource<User>> all()
 	{
-		List<Resource<User>> users = repository.findAll().stream()
-			.map(user -> new Resource<>(user,
-				linkTo(methodOn(UserController.class).one(user.getUser_id())).withSelfRel(),
-				linkTo(methodOn(UserController.class).all()).withRel("users")))
-			.collect(Collectors.toList());
-		
-		return new Resources<>(users,
-			linkTo(methodOn(UserController.class).all()).withSelfRel());
+		return super.onGetAll();
 	}
 	// end::get-aggregate-root[]
 
 	@PostMapping("/users")
-	User newUser(@RequestBody User newUser)
+	protected User newEntity(@RequestBody User newUser)
 	{
-		return repository.save(newUser);
+		return super.onPutNewEntity(newUser);
 	}
 
 	// Single item
 
 	// tag::get-single-item[]
 	@GetMapping("/users/{id}")
+	@Override
 	public Resource<User> one(@PathVariable int id)
 	{
-		User user = repository.findById(id)
-			.orElseThrow(() -> new UserNotFoundException(id));
-		
-		return assembler.toResource(user);
+		return super.onGetOne(id);
 	}
 	// end::get-single-item[]
 
 	@PutMapping("/users/{id}")
-	User replaceUser(@RequestBody User newUser, @PathVariable int id)
+	@Override
+	protected User replaceEntity(@RequestBody User newUser, @PathVariable int id)
 	{
-		return repository.findById(id)
-			.map(user -> {
-				user.setUser_name(newUser.getUser_name());
-				user.setUser_password(newUser.getUser_password());
-				user.setUser_email(newUser.getUser_password());
-				user.setUser_type(user.getUser_type());
-				user.setUser_balance(newUser.getUser_balance());
-				return repository.save(user);
-			})
-			.orElseGet(() -> {
-				newUser.setUser_id(id);
-				return repository.save(newUser);
-			});
+		return super.onPutReplaceEntity(newUser, id);
 	}
 
 	@DeleteMapping("/users/{id}")
-	void deleteUser(@PathVariable int id) {
-		repository.deleteById(id);
+	protected void deleteEntity(@PathVariable int id) {
+		super.onDeleteEntity(id);
+	}
+
+	@Override
+	protected void replace(User oldUser, User newUser) {
+		oldUser.setUser_name(newUser.getUser_name());
+		oldUser.setUser_password(newUser.getUser_password());
+		oldUser.setUser_email(newUser.getUser_email());
+		oldUser.setUser_type(newUser.getUser_type());
+		oldUser.setUser_balance(newUser.getUser_balance());
+		oldUser.setPostalInfo(newUser.getPostalInfo());
 	}
 }
