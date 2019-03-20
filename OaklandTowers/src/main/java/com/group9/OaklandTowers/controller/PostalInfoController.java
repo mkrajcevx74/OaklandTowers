@@ -2,6 +2,7 @@ package com.group9.OaklandTowers.controller;
 
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +31,7 @@ public class PostalInfoController extends ModelController<PostalInfo, PostalInfo
 	// end::get-aggregate-root[]
 
 	@PostMapping("/posts")
-	protected PostalInfo newEntity(@RequestBody PostalInfo newPostalInfo)
+	protected ResponseEntity<Resource<PostalInfo>> newEntity(@RequestBody PostalInfo newPostalInfo)
 	{
 		return super.onPutNewEntity(newPostalInfo);
 	}
@@ -48,14 +49,14 @@ public class PostalInfoController extends ModelController<PostalInfo, PostalInfo
 
 	@PutMapping("/posts/{id}")
 	@Override
-	protected PostalInfo replaceEntity(@RequestBody PostalInfo newPostalInfo, @PathVariable int id)
+	protected ResponseEntity<Resource<PostalInfo>> replaceEntity(@RequestBody PostalInfo newPostalInfo, @PathVariable int id)
 	{
 		return super.onPutReplaceEntity(newPostalInfo, id);
 	}
 
 	@DeleteMapping("/posts/{id}")
-	protected void deleteEntity(@PathVariable int id) {
-		super.onDeleteEntity(id);
+	protected ResponseEntity<Resource<PostalInfo>> deleteEntity(@PathVariable int id) {
+		return super.onDeleteEntity(id);
 	}
 
 	@Override

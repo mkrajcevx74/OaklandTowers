@@ -9,7 +9,8 @@ import com.group9.OaklandTowers.model.PostalInfo;
 public class PostalInfoResourceAssembler extends ModelResourceAssembler<PostalInfo>
 {
 	@Override
-	public Class<PostalInfoController> getController() {
+	public Class<PostalInfoController> getController()
+	{
 		return PostalInfoController.class;
 	}
 }

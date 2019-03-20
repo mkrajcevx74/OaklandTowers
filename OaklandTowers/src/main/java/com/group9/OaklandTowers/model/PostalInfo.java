@@ -31,7 +31,7 @@ public class PostalInfo extends AbstractModelEO<Integer>
 	}
 
 	@Column(name = "post_id")
-	@Id @GeneratedValue @Override
+	@Id @GeneratedValue
 	public Integer getId()
 	{
 		return super.onGetId();

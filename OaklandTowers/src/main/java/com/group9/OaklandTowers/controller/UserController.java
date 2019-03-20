@@ -2,6 +2,7 @@ package com.group9.OaklandTowers.controller;
 
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +31,7 @@ public class UserController extends ModelController<User, UserRepository, UserRe
 	// end::get-aggregate-root[]
 
 	@PostMapping("/users")
-	protected User newEntity(@RequestBody User newUser)
+	protected ResponseEntity<Resource<User>> newEntity(@RequestBody User newUser)
 	{
 		return super.onPutNewEntity(newUser);
 	}
@@ -48,14 +49,14 @@ public class UserController extends ModelController<User, UserRepository, UserRe
 
 	@PutMapping("/users/{id}")
 	@Override
-	protected User replaceEntity(@RequestBody User newUser, @PathVariable int id)
+	protected ResponseEntity<Resource<User>> replaceEntity(@RequestBody User newUser, @PathVariable int id)
 	{
 		return super.onPutReplaceEntity(newUser, id);
 	}
 
 	@DeleteMapping("/users/{id}")
-	protected void deleteEntity(@PathVariable int id) {
-		super.onDeleteEntity(id);
+	protected ResponseEntity<Resource<User>> deleteEntity(@PathVariable int id) {
+		return super.onDeleteEntity(id);
 	}
 
 	@Override

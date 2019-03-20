@@ -19,16 +19,17 @@ public class Invoice extends AbstractModelEO<Integer>
 	private double invc_amount;
 	private String invc_desc;
 
-	private PaymentInfo paymentInfo;
+	private PaymentInfo invc_paymentInfo;
 
-	public Invoice(double invc_amount, String invc_desc)
+	public Invoice(double invc_amount, String invc_desc, PaymentInfo invc_paymentInfo)
 	{
 		this.invc_amount = invc_amount;
 		this.invc_desc = invc_desc;
+		this.invc_paymentInfo = invc_paymentInfo;
 	}
 
 	@Column(name = "invc_id")
-	@Id @GeneratedValue @Override
+	@Id @GeneratedValue
 	public Integer getId()
 	{
 		return super.onGetId();
@@ -36,8 +37,8 @@ public class Invoice extends AbstractModelEO<Integer>
 
 	@ManyToOne
 	@JoinColumn(name = "pmnt_id", foreignKey = @ForeignKey(name = "invc_ibfk_1"), nullable = false)
-	public PaymentInfo getPaymentInfo()
+	public PaymentInfo getInvc_paymentInfo()
 	{
-		return paymentInfo;
+		return invc_paymentInfo;
 	}
 }

@@ -18,18 +18,17 @@ import lombok.NoArgsConstructor;
 @Data @Entity @NoArgsConstructor
 public class Reservation extends AbstractModelEO<Integer>
 {
-	private User user;
-
-	private Room room;
-
 	private Date rsrv_dateTime_start;
 	private Date rsrv_dateTime_end;
 	private double rsrv_cost;
+	
+	private User rsrv_user;
+	private Room rsrv_room;
 
-	public Reservation(User user, Room room, Date rsrv_dateTime_start, Date rsrv_dateTime_end, double rsrv_cost)
+	public Reservation(User rsrv_user, Room rsrv_room, Date rsrv_dateTime_start, Date rsrv_dateTime_end, double rsrv_cost)
 	{
-		this.user = user;
-		this.room = room;
+		this.rsrv_user = rsrv_user;
+		this.rsrv_room = rsrv_room;
 		this.rsrv_dateTime_start =  rsrv_dateTime_start;
 		this.rsrv_dateTime_end = rsrv_dateTime_end;
 		this.rsrv_cost = rsrv_cost;
@@ -44,15 +43,15 @@ public class Reservation extends AbstractModelEO<Integer>
 
 	@ManyToOne
 	@JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "rsrv_ibfk_1"), nullable = false)
-	public User getUser()
+	public User getRsrv_user()
 	{
-		return user;
+		return rsrv_user;
 	}
 
 	@ManyToOne
 	@JoinColumn(name = "room_id", foreignKey = @ForeignKey(name = "rsrv_ibfk_2"), nullable = false)
-	public Room getRoom()
+	public Room getRsrv_room()
 	{
-		return room;
+		return rsrv_room;
 	}
 }

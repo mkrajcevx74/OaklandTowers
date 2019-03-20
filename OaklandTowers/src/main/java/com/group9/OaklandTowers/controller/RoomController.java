@@ -2,6 +2,7 @@ package com.group9.OaklandTowers.controller;
 
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +31,7 @@ public class RoomController extends ModelController<Room, RoomRepository, RoomRe
 	// end::get-aggregate-root[]
 
 	@PostMapping("/rooms")
-	protected Room newEntity(@RequestBody Room newRoom)
+	protected ResponseEntity<Resource<Room>> newEntity(@RequestBody Room newRoom)
 	{
 		return super.onPutNewEntity(newRoom);
 	}
@@ -48,14 +49,14 @@ public class RoomController extends ModelController<Room, RoomRepository, RoomRe
 
 	@PutMapping("/rooms/{id}")
 	@Override
-	protected Room replaceEntity(@RequestBody Room newRoom, @PathVariable int id)
+	protected ResponseEntity<Resource<Room>> replaceEntity(@RequestBody Room newRoom, @PathVariable int id)
 	{
 		return super.onPutReplaceEntity(newRoom, id);
 	}
 
 	@DeleteMapping("/rooms/{id}")
-	protected void deleteEntity(@PathVariable int id) {
-		super.onDeleteEntity(id);
+	protected ResponseEntity<Resource<Room>> deleteEntity(@PathVariable int id) {
+		return super.onDeleteEntity(id);
 	}
 
 	@Override

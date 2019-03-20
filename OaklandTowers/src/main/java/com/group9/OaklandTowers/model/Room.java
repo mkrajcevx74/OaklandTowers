@@ -32,7 +32,7 @@ public class Room extends AbstractModelEO<Integer>
 	}
 
 	@Column(name = "room_id")
-	@Id @GeneratedValue @Override
+	@Id @GeneratedValue
 	public Integer getId()
 	{
 		return super.onGetId();

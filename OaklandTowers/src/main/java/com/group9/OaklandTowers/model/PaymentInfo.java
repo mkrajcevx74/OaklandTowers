@@ -26,9 +26,9 @@ public class PaymentInfo extends AbstractModelEO<Integer>
 	private char pmnt_name_mi;
 	private Date pmnt_date_expr;
 
-	private User user;
+	private User pmnt_user;
 
-	public PaymentInfo(String pmnt_name, byte pmnt_type, long pmnt_num, String pmnt_name_last, String pmnt_name_first, char pmnt_name_mi, Date pmnt_date_expr)
+	public PaymentInfo(String pmnt_name, byte pmnt_type, long pmnt_num, String pmnt_name_last, String pmnt_name_first, char pmnt_name_mi, Date pmnt_date_expr, User pmnt_user)
 	{
 		this.pmnt_name = pmnt_name;
 		this.pmnt_type = pmnt_type;
@@ -37,10 +37,11 @@ public class PaymentInfo extends AbstractModelEO<Integer>
 		this.pmnt_name_first = pmnt_name_first;
 		this.pmnt_name_mi = pmnt_name_mi;
 		this.pmnt_date_expr = pmnt_date_expr;
+		this.pmnt_user = pmnt_user;
 	}
 
 	@Column(name = "pmnt_id")
-	@Id @GeneratedValue @Override
+	@Id @GeneratedValue
 	public Integer getId()
 	{
 		return super.onGetId();
@@ -50,6 +51,6 @@ public class PaymentInfo extends AbstractModelEO<Integer>
 	@JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "pmnt_ibfk_1"), nullable = false)
 	public User getUser()
 	{
-		return user;
+		return pmnt_user;
 	}
 }
